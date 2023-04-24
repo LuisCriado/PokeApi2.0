@@ -7,10 +7,6 @@ import Section3 from '../components/Section3';
 
 
 export default function Home() {
-
-
-
-  
   return (
     <div>
       <div id="container">

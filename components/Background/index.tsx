@@ -1,17 +1,10 @@
-import { Component } from "react";
+import { useEffect } from "react";
 import Renderer from './Renderer';
 
+export default function Background() {
+  useEffect(() => {
+    new Renderer();
+  }, []);
 
-
-
-export default class Background extends Component {
-
-
-    componentDidMount = () => new Renderer()
-    
-      
-    render = () =>  <canvas id="bg"/>
-        
-    
-
+  return <canvas id="bg" />;
 }

@@ -1,12 +1,7 @@
-import { Mesh,SphereGeometry,TextureLoader,BackSide,MeshPhongMaterial } from "three"
-
-
-
-
+import { Mesh,SphereGeometry,TextureLoader,BackSide,MeshPhongMaterial, Scene } from "three"
 
 export default class Skybox{
-
-    constructor(sence){
+    constructor(scene:Scene){
     const skyGeometry = new SphereGeometry(360 ,25 ,25)
     const loader = new TextureLoader()
     const textura = loader.load("/custom-sky.png")
@@ -15,6 +10,6 @@ export default class Skybox{
     })
     const skybox = new  Mesh (skyGeometry, material2)
      skybox.material.side = BackSide
-     sence.add(skybox)
+     scene.add(skybox)
 }
 }

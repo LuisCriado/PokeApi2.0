@@ -5,9 +5,7 @@ const Section1 = () => {
     <section>
       <div className="centrar" id="s1">
         <h1> Necesitas saber Mas Sobre Pokemon?  </h1>
-
-        <p>Puedes encontrar toda la informacion de ttus pokemos Preferidos en este sitio   </p>
-
+        <p>Puedes encontrar toda la informacion de ttus pokemos Preferidos en este sitio</p>
       </div>
     </section>
   )

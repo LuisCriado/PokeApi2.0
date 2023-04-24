@@ -1,68 +1,50 @@
-import { AnimationMixer, Clock, Group } from 'three'
-import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader'
-import { textChangeRangeIsUnchanged } from 'typescript'
+import { AnimationMixer, Clock, Group, Scene } from 'three'
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
+export default class Pokeball {
+  private object!: Group
+  private clock = new Clock()
+  private animation!: AnimationMixer
 
-export default  class Pokeball {
+  constructor(scene: Scene, loader: GLTFLoader) {
+    loader.load("/pokeball.glb", (gltf: GLTF) => {
+      this.object = gltf.scene
+      this.posicionar()
+      this.animar(gltf)
+      scene.add(this.object)
+    })
+    this.update()
+  }
 
-    private objet:Group
-    private clock = new Clock()
-    private animation: AnimationMixer
-
-    constructor(scene,loader:GLTFLoader){
-        this.clock = new Clock()
-        
-
-
-        loader.load("/pokeball.glb", (gltf) =>{
-            this.objet = gltf.scene
-            
-            this.posicionar()
-            this.animar(gltf)
-           
-
-
-            scene.add(this.objet)
-
-
-        })
-        this.update()
-
+  private posicionar() {
+    if (window.innerWidth > 900) {
+      const ratio = (window.innerWidth - 900) * 5 / 460 + 14
+      this.object.translateY(-1)
+      this.object.translateX(ratio)
+      this.object.translateZ(-23)
+      this.object.rotateY(-Math.PI / 1.5)
+    } else {
+      this.object.translateY(5.8)
+      this.object.translateZ(-20)
+      this.object.rotateY(-Math.PI / 2)
     }
-    
-    private posicionar(){
-        if(window.innerWidth > 900){
-            const ratio = (window.innerWidth - 900 ) * 5 / 460 + 14
-        this.objet.translateY(-1)
-        this.objet.translateX(ratio)
-        this.objet.translateZ(-23)
-        this.objet.rotateY(-Math.PI/1.5)
-        }else{
-            this.objet.translateY(5.8)
-            this.objet.translateZ(-20)
-            this.objet.rotateY(-Math.PI/2)
+    this.object.rotateZ(Math.PI / 20)
+    this.object.scale.set(2, 2, 2)
+  }
 
-        }
-        this.objet.rotateZ(Math.PI/20)
-        this.objet.scale.set(2,2,2)
-       
-        
+  private update() {
+    const delta = this.clock.getDelta()
 
+    if (this.object && this.animation) {
+      this.animation.update(delta)
     }
 
-    private update(){
-        const delta = this.clock.getDelta()
-       
+    requestAnimationFrame(this.update.bind(this))
+  }
 
-        
-        if(this.objet) this.animation.update(delta)
-        
-
-        requestAnimationFrame(this.update.bind(this))
-    }
-    private animar(gltf){
-         this.animation = new AnimationMixer(this.objet)
-            const action = this.animation.clipAction(gltf.animations[0])
-            action.play()
-    }
+  private animar(gltf: GLTF) {
+    this.animation = new AnimationMixer(this.object)
+    const action = this.animation.clipAction(gltf.animations[0])
+    action.play()
+  }
 }
